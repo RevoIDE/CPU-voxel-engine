@@ -1,2 +1,5 @@
-Documentation:
+Documentation: # enable doxygen documentation formatting
   CommentFormat: Doxygen
+Diagnostics:   # remove false positive warning on "unused directly" includes
+  MissingIncludes: Strict
+  UnusedIncludes: None
