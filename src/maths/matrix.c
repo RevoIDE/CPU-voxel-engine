@@ -1,4 +1,5 @@
 #include "maths/matrix.h"
+#include <math.h>
 
 t_matrix_4f	matrix_4f_identity()
 {
@@ -43,4 +44,19 @@ t_matrix_4f	matrix_4f_translate(t_matrix_4f mat, float x, float y, float z)
 	T.m[2][3] = z;
 
 	return matrix_4f_mult(mat, T);
+}
+
+t_matrix_4f	matrix_4f_projection(float fov, float aspect, float near, float far)
+{
+	t_matrix_4f result = { 0 };
+
+	float tan_half_fov = tanf(fov * 0.5f);
+
+	result.m[0][0] = 1.0f / (aspect * tan_half_fov);
+	result.m[1][1] = 1.0f / tan_half_fov;
+	result.m[2][2] = -(far + near) / (far - near);
+	result.m[2][3] = -1.0f;
+	result.m[3][2] = -(2.0f * far * near) / (far - near);
+
+	return result;
 }
