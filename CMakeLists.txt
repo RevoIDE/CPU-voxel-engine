@@ -42,4 +42,6 @@ if (DOXYGEN_FOUND)
 	)
 endif()
 
-# no libs needed (this project only uses the standard C library)
+target_link_libraries(voxel-cpu PRIVATE m)
+
+# no other libs needed (this project only uses the standard C library)
