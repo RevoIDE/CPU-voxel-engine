@@ -91,16 +91,23 @@ void	mesh_add_quad(t_mesh *mesh, t_vec_3f pos, t_vec_2f size, t_block_face face,
 		mesh->vertex_capacity *= 2;
 		t_vertex *tmp = realloc(mesh->vertices, sizeof(t_vertex) * mesh->vertex_capacity);
 		if (!tmp)
+		{
+			WARN("Unable to reallocate memory for vertices");
 			return;
+		}
 		mesh->vertices = tmp;
 	}
 
 	if (mesh->index_count + 6 > mesh->index_capacity)
 	{
 		mesh->index_capacity *= 2;
-		uint32_t *tmp = realloc(mesh->indices, sizeof(uint32_t) * mesh->vertex_capacity);
+		uint32_t *tmp = realloc(mesh->indices, sizeof(uint32_t) * mesh->index_capacity);
 		if (!tmp)
+		{
+			WARN("Unable to reallocate memory for indices");
 			return;
+		}
+
 		mesh->indices = tmp;
 	}
 
