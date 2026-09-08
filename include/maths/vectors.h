@@ -41,7 +41,7 @@ typedef struct s_vec_4f
 	float	y;
 	float	z;
 	float	w;
-}	t_vec_4f;
+}	__attribute__((aligned(16))) t_vec_4f;
 
 /**
  * @brief Creates a 2D vector with the given components.

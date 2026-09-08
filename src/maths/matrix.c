@@ -1,5 +1,7 @@
 #include "maths/matrix.h"
+#include <immintrin.h>
 #include <math.h>
+#include <xmmintrin.h>
 
 t_matrix_4f	matrix_4f_identity()
 {
@@ -14,14 +16,26 @@ t_matrix_4f	matrix_4f_identity()
 
 t_matrix_4f	matrix_4f_mult(t_matrix_4f a, t_matrix_4f b)
 {
-    t_matrix_4f	result = { 0 };
+	t_matrix_4f r;
 
-    for (int i = 0; i < 4; i++)
-    	for (int k = 0; k < 4; k++)
-     		for (int j = 0; j < 4; j++)
-        		result.m[i][j] += a.m[i][k] * b.m[k][j];
+	__m128 b0 = _mm_load_ps(b.m[0]);
+	__m128 b1 = _mm_load_ps(b.m[1]);
+	__m128 b2 = _mm_load_ps(b.m[2]);
+	__m128 b3 = _mm_load_ps(b.m[3]);
 
-    return result;
+	for (int i = 0; i < 4; i++)
+	{
+		__m128 x = _mm_load_ps(a.m[i]);
+
+		__m128 r0 = _mm_mul_ps(_mm_shuffle_ps(x, x, _MM_SHUFFLE(0, 0, 0, 0)), b0);
+		__m128 r1 = _mm_fmadd_ps(_mm_shuffle_ps(x, x, _MM_SHUFFLE(1, 1, 1, 1)), b1, r0);
+		__m128 r2 = _mm_fmadd_ps(_mm_shuffle_ps(x, x, _MM_SHUFFLE(2, 2, 2, 2)), b2, r1);
+		__m128 r3 = _mm_fmadd_ps(_mm_shuffle_ps(x, x, _MM_SHUFFLE(3, 3, 3, 3)), b3, r2);
+
+		_mm_store_ps(r.m[i], r3);
+	}
+
+	return r;
 }
 
 t_matrix_4f	matrix_4f_transpose(t_matrix_4f mat)

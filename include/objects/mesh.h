@@ -1,10 +1,10 @@
 #ifndef MESH_H
 # define MESH_H
 
-#include "maths/vectors.h"
+# include "maths/vectors.h"
 # include <stdint.h>
 
-typedef struct	s_vertex
+typedef struct s_vertex
 {
 	float		x,  y,  z;
 	float		nx, ny, nz;
@@ -17,7 +17,7 @@ typedef struct	s_vertex
 	t_vec_2f	atlas_max;
 }	t_vertex;
 
-typedef struct	s_mesh
+typedef struct s_mesh
 {
 	// data
 	t_vertex	*vertices;
