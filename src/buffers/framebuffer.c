@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -14,7 +15,7 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 	if (width <= 0 || height <= 0)
 		ERROR("[Framebuffer] Invalid framebuffer dimensions !");
 
-	buffer->pixels = malloc((size_t) width * (size_t) height);
+	buffer->pixels = malloc(sizeof(uint32_t) * (size_t) width * (size_t) height);
 	if (!buffer->pixels)
 	{
 		free(buffer);
@@ -36,18 +37,20 @@ void			framebuffer_free(t_framebuffer *framebuffer)
 	free(framebuffer);
 }
 
-void			framebuffer_clear(t_framebuffer *framebuffer, unsigned char color)
+void	framebuffer_clear(t_framebuffer *framebuffer, uint32_t color)
 {
 	if (!framebuffer)
 		ERROR("Cannot clear, unallocated framebuffer !");
-
 	if (!framebuffer->pixels)
 		ERROR("Cannot clear, partially allocated framebuffer !");
 
-	memset(framebuffer->pixels, color, (size_t) framebuffer->width * (size_t) framebuffer->height);
+	size_t count = (size_t)framebuffer->width * (size_t)framebuffer->height;
+
+	for (size_t i = 0; i < count; i++)
+		framebuffer->pixels[i] = color;
 }
 
-void			framebuffer_draw(t_framebuffer *framebuffer, int x, int y, unsigned char color)
+void			framebuffer_draw(t_framebuffer *framebuffer, int x, int y, uint32_t color)
 {
 	if (!framebuffer)
 		ERROR("[Framebuffer] Cannot draw, unallocated framebuffer !");

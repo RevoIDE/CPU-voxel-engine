@@ -21,5 +21,7 @@ int	main(int argc, char *argv[])
 		.vsync = 0
 	};
 
+	(void) app_infos;
+
 	// engine entry point
 }

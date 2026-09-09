@@ -26,6 +26,12 @@ target_include_directories(
     include
 )
 
+# adding AVX2 and FMA compile options
+target_compile_options(voxel-cpu PRIVATE
+    -mavx2
+    -mfma
+)
+
 # Optionnal, generate Doxygen documentation
 # Doxygen gives a nice HTML documentation from the comments in the code
 # (see: https://www.doxygen.nl/)

@@ -12,7 +12,7 @@
 typedef struct s_matrix_4f
 {
 	float m[4][4];
-}	t_matrix_4f;
+}	__attribute__((aligned(16))) t_matrix_4f;
 
 /**
  * Returns the identity matrix.
