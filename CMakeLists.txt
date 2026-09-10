@@ -10,6 +10,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Set the C standard to C11
 set(CMAKE_C_STANDARD 11)
 
+add_subdirectory(Xway-lib)
+
 # Gather all source files and headers
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
     "src/*.c"
@@ -48,6 +50,9 @@ if (DOXYGEN_FOUND)
 	)
 endif()
 
-target_link_libraries(voxel-cpu PRIVATE m)
+target_link_libraries(voxel-cpu PRIVATE
+    m
+    xway
+)
 
 # no other libs needed (this project only uses the standard C library)
