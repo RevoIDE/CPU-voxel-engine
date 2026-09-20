@@ -4,7 +4,6 @@
 
 #include <math.h>
 #include <stdint.h>
-#include <wctype.h>
 
 static inline void	vec_swap(t_vec_3f *v1, t_vec_3f *v2)
 {
@@ -31,6 +30,15 @@ float	interpolate_x(t_vec_3f *p1, t_vec_3f *p2, int y)
 	t = (y - p1->y) / (p2->y - p1->y);
 
 	return (p1->x + t * (p2->x - p1->x));
+}
+
+float	interpolate_z(t_vec_3f *p1, t_vec_3f *p2, int y)
+{
+	float	t;
+
+	t = (y - p1->y) / (p2->y - p1->y);
+
+	return (p1->z + t * (p2->z - p1->z));
 }
 
 void	draw(t_framebuffer *fb, t_triangle *triangle, uint32_t color)

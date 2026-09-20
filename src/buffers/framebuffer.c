@@ -1,3 +1,4 @@
+#include <float.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -18,6 +19,14 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 	buffer->pixels = malloc(sizeof(uint32_t) * (size_t) width * (size_t) height);
 	if (!buffer->pixels)
 	{
+		free(buffer);
+		ERROR("[Framebuffer] Unable to allocate framebuffer !");
+	}
+
+	buffer->depth = malloc(sizeof(float) * (size_t) width * (size_t) height);
+	if (!buffer->depth)
+	{
+		free(buffer->pixels);
 		free(buffer);
 		ERROR("[Framebuffer] Unable to allocate framebuffer !");
 	}
@@ -47,7 +56,10 @@ void	framebuffer_clear(t_framebuffer *framebuffer, uint32_t color)
 	size_t count = (size_t)framebuffer->width * (size_t)framebuffer->height;
 
 	for (size_t i = 0; i < count; i++)
+	{
 		framebuffer->pixels[i] = color;
+		framebuffer->depth[i] = FLT_MAX;
+	}
 }
 
 void			framebuffer_draw(t_framebuffer *framebuffer, int x, int y, uint32_t color)

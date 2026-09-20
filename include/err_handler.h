@@ -3,6 +3,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+# include <assert.h>
 
 /* ANSI colors */
 # define RESET   "\033[0m"
@@ -27,5 +28,10 @@
     do { \
         fprintf(stdout, CYAN "Info: " RESET "%s\n", msg); \
     } while (0)
+
+# define ASSERT_ALIGNED32(p) \
+	do { \
+		assert(((uintptr_t)(p) & 31) == 0); \
+	} while (0)
 
 #endif
