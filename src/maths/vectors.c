@@ -31,7 +31,7 @@ float	vec_2f_dot(t_vec_2f a, t_vec_2f b)
 	return a.x * b.x + a.y * b.y;
 }
 
-float	vec2f_len(t_vec_2f a)
+float	vec_2f_len(t_vec_2f a)
 {
 	return sqrtf(a.x * a.x + a.y * a.y);
 }
@@ -75,7 +75,52 @@ float	vec_3f_dot(t_vec_3f a, t_vec_3f b)
 	return a.x * b.x + a.y * b.y + a.z * b.z;
 }
 
-float	vec3f_len(t_vec_3f a)
+float	vec_3f_len(t_vec_3f a)
 {
 	return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z);
+}
+
+t_vec_3f	vec_3f_normalize(t_vec_3f a)
+{
+	float len = vec_3f_len(a);
+
+	if (len == 0.0f)
+		return a;
+
+	return (t_vec_3f){ a.x / len, a.y / len, a.z / len };
+}
+
+t_vec_4f	vec_4f(float x, float y, float z, float w)
+{
+	return (t_vec_4f){ x, y, z, w };
+}
+
+t_vec_4f	vec_4f_add(t_vec_4f a, t_vec_4f b)
+{
+	return (t_vec_4f){ a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w };
+}
+
+t_vec_4f	vec_4f_sub(t_vec_4f a, t_vec_4f b)
+{
+	return (t_vec_4f){ a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w };
+}
+
+t_vec_4f	vec_4f_mul(t_vec_4f a, t_vec_4f b)
+{
+	return (t_vec_4f){ a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w };
+}
+
+t_vec_4f	vec_4f_div(t_vec_4f a, t_vec_4f b)
+{
+	return (t_vec_4f){ a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w };
+}
+
+float		vec_4f_dot(t_vec_4f a, t_vec_4f b)
+{
+	return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+}
+
+float		vec_4f_len(t_vec_4f a)
+{
+	return sqrtf(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
 }

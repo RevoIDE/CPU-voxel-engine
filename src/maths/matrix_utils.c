@@ -6,6 +6,7 @@
 #include "err_handler.h"
 #include "maths/matrix.h"
 #include "maths/vectors.h"
+#include "objects/camera.h"
 
 void	matrix_4f_transform_vec_4f(t_vec_4f *restrict result, const t_vec_4f *restrict vec, const t_matrix_4f *restrict mat)
 {
@@ -94,4 +95,40 @@ void	matrix_4f_transform_vec4f_batch(t_vec_4f *restrict result, const t_vec_4f *
 	}
 }
 
-/// TODO: create a batch version of matrix_4f_transform_vec_4f to handle transformations of multiple vectors at once
+t_matrix_4f view_from_camera(t_camera *cam)
+{
+    t_matrix_4f m = {0};
+
+    // right
+    m.m[0][0] = cam->right.x;
+    m.m[0][1] = cam->right.y;
+    m.m[0][2] = cam->right.z;
+    m.m[0][3] = -vec_3f_dot(cam->right, cam->pos);
+
+    // up
+    m.m[1][0] = cam->up.x;
+    m.m[1][1] = cam->up.y;
+    m.m[1][2] = cam->up.z;
+    m.m[1][3] = -vec_3f_dot(cam->up, cam->pos);
+
+    // -forward
+    m.m[2][0] = -cam->forward.x;
+    m.m[2][1] = -cam->forward.y;
+    m.m[2][2] = -cam->forward.z;
+    m.m[2][3] = vec_3f_dot(cam->forward, cam->pos);
+
+    m.m[3][3] = 1.0f;
+
+    return m;
+}
+
+t_matrix_4f	compute_mvp(t_camera *cam)
+{
+
+	// model = T(center) * Ry * T(-center)
+	t_matrix_4f	model = matrix_4f_identity();
+	t_matrix_4f	view = view_from_camera(cam);
+	t_matrix_4f	proj = matrix_4f_projection(cam->fov, cam->aspect, cam->Znear, cam->Zfar);
+
+	return (matrix_4f_mult(proj, matrix_4f_mult(view, model)));
+}

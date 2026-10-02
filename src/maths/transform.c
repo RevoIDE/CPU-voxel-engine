@@ -1,7 +1,48 @@
 #include "buffers/vertexbuffer.h"
 #include "err_handler.h"
 #include "maths/matrix.h"
+#include "objects/mesh.h"
+
 #include <immintrin.h>
+#include <stddef.h>
+#include <stdlib.h>
+
+int	vertex_buffer_out_update(t_vertexbuffer_out *out, int count)
+{
+	size_t size;
+
+	if (count <= out->capacity)
+		return (0);
+
+	free(out->x);
+	free(out->y);
+	free(out->invw);
+
+	size = (((size_t) count * sizeof(float)) + 31) & ~(31);
+
+	out->x 		= aligned_alloc(32, size);
+	out->y 		= aligned_alloc(32, size);
+	out->invw 	= aligned_alloc(32, size);
+	out->clipW	= aligned_alloc(32, size);
+
+	if (!out->x || !out->y || !out->invw || !out->clipW)
+		return (-1);
+
+	out->capacity = count;
+	return (0);
+}
+
+void	vertex_buffer_out_free(t_vertexbuffer_out *out)
+{
+	if (!out)
+		return ;
+
+	free(out->x);
+	free(out->y);
+	free(out->invw);
+	free(out->clipW);
+	*out = (t_vertexbuffer_out) {0};
+}
 
 void	transform_vertices(t_vertexbuffer_in *in, t_vertexbuffer_out *out, t_matrix_4f *mvp, int fbwidth, int fbheight)
 {
@@ -72,10 +113,11 @@ void	transform_vertices(t_vertexbuffer_in *in, t_vertexbuffer_out *out, t_matrix
 		__m256	screenY = _mm256_fnmadd_ps(ndcY, halfH, halfH);
 
 		// storing
-		_mm256_storeu_ps(&out->invw[i], invW);
+		_mm256_store_ps(&out->invw[i], invW);
+		_mm256_store_ps(&out->clipW[i], clipW);
 
-		_mm256_storeu_ps(&out->x[i], screenX);
-		_mm256_storeu_ps(&out->y[i], screenY);
+		_mm256_store_ps(&out->x[i], screenX);
+		_mm256_store_ps(&out->y[i], screenY);
 	}
 
 	// remaining vertices (scalar fallback)

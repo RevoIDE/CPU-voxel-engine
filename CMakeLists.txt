@@ -10,6 +10,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Set the C standard to C11
 set(CMAKE_C_STANDARD 11)
 
+# flags
+set(CMAKE_C_FLAGS "-Wshadow")
+
 add_subdirectory(Xway-lib)
 
 # Gather all source files and headers

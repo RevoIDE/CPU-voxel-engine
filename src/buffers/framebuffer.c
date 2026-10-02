@@ -1,5 +1,4 @@
 #include <float.h>
-#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -58,7 +57,7 @@ void	framebuffer_clear(t_framebuffer *framebuffer, uint32_t color)
 	for (size_t i = 0; i < count; i++)
 	{
 		framebuffer->pixels[i] = color;
-		framebuffer->depth[i] = FLT_MAX;
+		framebuffer->depth[i] = 0.0f;
 	}
 }
 
