@@ -1,4 +1,3 @@
-#include "app.h"
 #include "xway.h"
 
 #include "app_properties.h"

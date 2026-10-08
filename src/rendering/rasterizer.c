@@ -167,7 +167,7 @@ void	draw_mesh(t_mesh *mesh, t_matrix_4f *mvp, t_camera *cam, t_framebuffer *fb)
 
 		triangle.area = area;
 
-		uint32_t base_color = 0xFFFFFF;
+		uint32_t base_color = 0xFF2315;
 		uint32_t color = shade_face(normal, base_color);
 
 		draw(fb, &triangle, color);
