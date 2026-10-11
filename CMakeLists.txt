@@ -35,6 +35,11 @@ target_include_directories(
 target_compile_options(voxel-cpu PRIVATE
     -mavx2
     -mfma
+    -Werror
+    -ffast-math
+    -msse4.1
+    -fopenmp-simd
+    -O3
 )
 
 # Optionnal, generate Doxygen documentation
