@@ -16,19 +16,14 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 		ERROR("[Framebuffer] Invalid framebuffer dimensions !");
 
 	buffer->pixels = malloc(sizeof(uint32_t) * (size_t) width * (size_t) height);
-	if (!buffer->pixels)
-	{
-		free(buffer);
-		ERROR("[Framebuffer] Unable to allocate framebuffer !");
-	}
 
-	buffer->depth = malloc(sizeof(float) * (size_t) width * (size_t) height);
-	if (!buffer->depth)
-	{
-		free(buffer->pixels);
-		free(buffer);
+	if (!buffer->pixels)
 		ERROR("[Framebuffer] Unable to allocate framebuffer !");
-	}
+
+	buffer->depth = malloc(sizeof(float) * (size_t) width * height);
+
+	if (!buffer->depth)
+		ERROR("[Framebuffer] Unable to allocate framebuffer !");
 
 	buffer->width  = width;
 	buffer->height = height;
@@ -36,12 +31,13 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 	return buffer;
 }
 
-void			framebuffer_free(t_framebuffer *framebuffer)
+void	framebuffer_free(t_framebuffer *framebuffer)
 {
 	if (!framebuffer)
-		return;
+		return ;
 
 	free(framebuffer->pixels);
+	free(framebuffer->depth);
 	free(framebuffer);
 }
 
@@ -49,6 +45,7 @@ void	framebuffer_clear(t_framebuffer *framebuffer, uint32_t color)
 {
 	if (!framebuffer)
 		ERROR("Cannot clear, unallocated framebuffer !");
+
 	if (!framebuffer->pixels)
 		ERROR("Cannot clear, partially allocated framebuffer !");
 
