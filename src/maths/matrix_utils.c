@@ -95,7 +95,7 @@ void	matrix_4f_transform_vec4f_batch(t_vec_4f *restrict result, const t_vec_4f *
 	}
 }
 
-t_matrix_4f view_from_camera(t_camera *cam)
+t_matrix_4f	view_from_camera(t_camera *cam)
 {
     t_matrix_4f m = {0};
 

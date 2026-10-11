@@ -4,10 +4,11 @@
 #include <stdint.h>
 
 typedef struct s_framebuffer {
-    int				width;
-    int				height;
-    uint32_t		*pixels;
-    float			*depth;
+    int			width;
+    int			height;
+    int			stride;
+    uint32_t	*pixels;
+    float		*depth;
 }	t_framebuffer;
 
 t_framebuffer	*framebuffer_allocate(int width, int height);

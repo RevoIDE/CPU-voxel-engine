@@ -1,4 +1,5 @@
 #include <float.h>
+#include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,12 +16,16 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 	if (width <= 0 || height <= 0)
 		ERROR("[Framebuffer] Invalid framebuffer dimensions !");
 
-	buffer->pixels = malloc(sizeof(uint32_t) * (size_t) width * (size_t) height);
+	buffer->stride = (width + 7) & ~7;
+
+	size_t	n = (size_t)buffer->stride * buffer->height;
+
+	buffer->pixels = aligned_alloc(32, n * sizeof(uint32_t));
 
 	if (!buffer->pixels)
 		ERROR("[Framebuffer] Unable to allocate framebuffer !");
 
-	buffer->depth = malloc(sizeof(float) * (size_t) width * height);
+	buffer->depth = aligned_alloc(32, n * sizeof(float));
 
 	if (!buffer->depth)
 		ERROR("[Framebuffer] Unable to allocate framebuffer !");
