@@ -1,4 +1,5 @@
 #include "maths/matrix.h"
+#include "maths/vectors.h"
 #include <immintrin.h>
 #include <math.h>
 #include <xmmintrin.h>
@@ -81,4 +82,9 @@ t_matrix_4f	matrix_4f_projection(float fov, float aspect, float near, float far)
 	result.m[3][2] = -(2.0f * far * near) / (far - near);
 
 	return result;
+}
+
+t_vec_3f	matrix_4f_forward_from_view(t_matrix_4f mat)
+{
+	return (t_vec_3f){ -mat.m[2][0], -mat.m[2][1], -mat.m[2][2] };
 }

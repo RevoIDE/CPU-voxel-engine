@@ -1,5 +1,5 @@
-#ifndef APP_H
-# define APP_H
+#ifndef APP_PROPERTIES_H
+# define APP_PROPERTIES_H
 
 typedef struct s_app_infos
 {

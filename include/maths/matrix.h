@@ -57,4 +57,14 @@ t_matrix_4f	matrix_4f_transpose(t_matrix_4f mat);
  */
 t_matrix_4f	matrix_4f_translate(t_matrix_4f mat, float x, float y, float z);
 
+/**
+ * @brief Creates a perspective projection matrix.
+ * @param fov The field of view angle in radians.
+ * @param aspect The aspect ratio (width / height).
+ * @param near The near clipping plane distance.
+ * @param far The far clipping plane distance.
+ * @return t_matrix_4f The perspective projection matrix.
+ */
+t_matrix_4f	matrix_4f_projection(float fov, float aspect, float near, float far);
+
 #endif

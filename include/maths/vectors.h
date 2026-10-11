@@ -110,7 +110,7 @@ float		vec_2f_dot(t_vec_2f a, t_vec_2f b);
  *
  * @return The length of the vector.
  */
-float		vec2f_len(t_vec_2f a);
+float		vec_2f_len(t_vec_2f a);
 
 /**
  * @brief Creates a 3D vector with the given components.
@@ -190,7 +190,16 @@ float		vec_3f_dot(t_vec_3f a, t_vec_3f b);
  *
  * @return The length of the vector.
  */
-float		vec3f_len(t_vec_3f a);
+float		vec_3f_len(t_vec_3f a);
+
+/**
+ * @brief Normalizes a 3D vector.
+ *
+ * @param a The vector to normalize.
+ *
+ * @return The normalized vector.
+ */
+t_vec_3f	vec_3f_normalize(t_vec_3f a);
 
 /**
  * @brief Creates a 4D vector with the given components.
@@ -245,16 +254,6 @@ t_vec_4f	vec_4f_mul(t_vec_4f a, t_vec_4f b);
 t_vec_4f	vec_4f_div(t_vec_4f a, t_vec_4f b);
 
 /**
- * @brief Computes the cross product of two 4D vectors.
- *
- * @param a The first vector.
- * @param b The second vector.
- *
- * @return The result of the cross product.
- */
-t_vec_4f	vec_4f_cross(t_vec_4f a, t_vec_4f b);
-
-/**
  * @brief Computes the dot product of two 4D vectors.
  *
  * @param a The first vector.
@@ -271,6 +270,6 @@ float		vec_4f_dot(t_vec_4f a, t_vec_4f b);
  *
  * @return The length of the vector.
  */
-float		vec4f_len(t_vec_4f a);
+float		vec_4f_len(t_vec_4f a);
 
 #endif

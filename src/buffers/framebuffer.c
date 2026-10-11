@@ -1,3 +1,4 @@
+#include <float.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -15,12 +16,19 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 	if (width <= 0 || height <= 0)
 		ERROR("[Framebuffer] Invalid framebuffer dimensions !");
 
-	buffer->pixels = malloc(sizeof(uint32_t) * (size_t) width * (size_t) height);
+	buffer->stride = (width + 7) & ~7;
+
+	size_t	n = (size_t)buffer->stride * buffer->height;
+
+	buffer->pixels = aligned_alloc(32, n * sizeof(uint32_t));
+
 	if (!buffer->pixels)
-	{
-		free(buffer);
 		ERROR("[Framebuffer] Unable to allocate framebuffer !");
-	}
+
+	buffer->depth = aligned_alloc(32, n * sizeof(float));
+
+	if (!buffer->depth)
+		ERROR("[Framebuffer] Unable to allocate framebuffer !");
 
 	buffer->width  = width;
 	buffer->height = height;
@@ -28,12 +36,13 @@ t_framebuffer	*framebuffer_allocate(int width, int height)
 	return buffer;
 }
 
-void			framebuffer_free(t_framebuffer *framebuffer)
+void	framebuffer_free(t_framebuffer *framebuffer)
 {
 	if (!framebuffer)
-		return;
+		return ;
 
 	free(framebuffer->pixels);
+	free(framebuffer->depth);
 	free(framebuffer);
 }
 
@@ -41,13 +50,17 @@ void	framebuffer_clear(t_framebuffer *framebuffer, uint32_t color)
 {
 	if (!framebuffer)
 		ERROR("Cannot clear, unallocated framebuffer !");
+
 	if (!framebuffer->pixels)
 		ERROR("Cannot clear, partially allocated framebuffer !");
 
 	size_t count = (size_t)framebuffer->width * (size_t)framebuffer->height;
 
 	for (size_t i = 0; i < count; i++)
+	{
 		framebuffer->pixels[i] = color;
+		framebuffer->depth[i] = 0.0f;
+	}
 }
 
 void			framebuffer_draw(t_framebuffer *framebuffer, int x, int y, uint32_t color)
